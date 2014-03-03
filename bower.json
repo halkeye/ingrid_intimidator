@@ -1,0 +1,18 @@
+{
+  "name": "ingrid_intimdator",
+  "version": "0.0.0",
+  "authors": [
+    "Gavin Mogan <gavin@kodekoan.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "SoundJS": "*"
+  }
+}
