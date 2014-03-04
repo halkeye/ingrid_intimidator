@@ -2,12 +2,15 @@
   "use strict";
   // http://www.smartjava.org/content/exploring-html5-web-audio-visualizing-sound
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  var audioContext, analyser, analyser2, javascriptNode, splitter, sourceNode, container, lastSuccessTime;
+  var audioContext, analyser, analyser2, javascriptNode, splitter, sourceNode, container, firstSuccessTime, targetSuccessTime,  sustainTime, sustainValue;
 
   audioContext = new window.AudioContext();
   analyser = null;
   javascriptNode = null;
-  lastSuccessTime = 0;
+  firstSuccessTime = 0;
+  targetSuccessTime = 0;
+  sustainTime = 1;
+  sustainValue = 30;
 
   Array.prototype.remove = function () {
     var what, a = arguments, L = a.length, ax;
@@ -80,8 +83,19 @@
       document.getElementById('volume_meter_text').innerHTML = average;
       classes = container.getAttribute('class').split(' ');
       classes.remove('high');
-      if (average > 60) {
-        classes.push('high');
+      if (average > sustainValue) {
+        if (firstSuccessTime === 0) {
+          firstSuccessTime = new Date();
+          targetSuccessTime = new Date();
+          targetSuccessTime.setSeconds(targetSuccessTime.getSeconds() + sustainTime);
+        }
+        /* If we've sustained it for seconds */
+        if (new Date() > targetSuccessTime) {
+          classes.push('high');
+        }
+      } else {
+        firstSuccessTime = 0;
+        targetSuccessTime = 0;
       }
       container.setAttribute('class', classes.join(' '));
     };
