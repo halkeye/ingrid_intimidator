@@ -2,7 +2,9 @@
   "use strict";
   // http://www.smartjava.org/content/exploring-html5-web-audio-visualizing-sound
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  var audioContext, analyser, analyser2, javascriptNode, splitter, sourceNode, container, firstSuccessTime, targetSuccessTime,  sustainTime, sustainValue;
+  var audioContext, analyser, analyser2, javascriptNode, splitter, sourceNode,
+    firstSuccessTime, targetSuccessTime,  sustainTime, sustainValue,
+    elm_volume_meter, elm_volume_meter_text, elm_meter_container;
 
   audioContext = new window.AudioContext();
   analyser = null;
@@ -10,7 +12,13 @@
   firstSuccessTime = 0;
   targetSuccessTime = 0;
   sustainTime = 1;
-  sustainValue = 30;
+  sustainValue = 60;
+
+  elm_meter_container = document.getElementById('meter_container');
+  elm_volume_meter = document.getElementById('volume_meter');
+  elm_volume_meter_text = document.getElementById('volume_meter_text');
+
+  elm_volume_meter.max = sustainValue;
 
   Array.prototype.remove = function () {
     var what, a = arguments, L = a.length, ax;
@@ -71,7 +79,6 @@
     // we use the javascript node to draw at a
     // specific interval.
     analyser.connect(javascriptNode);
-    container = document.getElementById('meter_container');
 
     javascriptNode.onaudioprocess = function () {
       var array, average, classes;
@@ -79,9 +86,9 @@
       array =  new Uint8Array(analyser.frequencyBinCount);
       analyser.getByteFrequencyData(array);
       average = getAverageVolume(array);
-      document.getElementById('volume_meter').value = average;
-      document.getElementById('volume_meter_text').innerHTML = average;
-      classes = container.getAttribute('class').split(' ');
+      elm_volume_meter.value = average;
+      elm_volume_meter_text.innerHTML = average.toFixed(4);
+      classes = elm_meter_container.getAttribute('class').split(' ');
       classes.remove('high');
       if (average > sustainValue) {
         if (firstSuccessTime === 0) {
@@ -97,7 +104,7 @@
         firstSuccessTime = 0;
         targetSuccessTime = 0;
       }
-      container.setAttribute('class', classes.join(' '));
+      elm_meter_container.setAttribute('class', classes.join(' '));
     };
   }
 
