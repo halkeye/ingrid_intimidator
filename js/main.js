@@ -2,11 +2,23 @@
   "use strict";
   // http://www.smartjava.org/content/exploring-html5-web-audio-visualizing-sound
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  var audioContext, analyser, analyser2, javascriptNode, splitter, sourceNode;
+  var audioContext, analyser, analyser2, javascriptNode, splitter, sourceNode, container, lastSuccessTime;
 
   audioContext = new window.AudioContext();
   analyser = null;
   javascriptNode = null;
+  lastSuccessTime = 0;
+
+  Array.prototype.remove = function () {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+      what = a[--L];
+      while ((ax = this.indexOf(what)) !== -1) {
+        this.splice(ax, 1);
+      }
+    }
+    return this;
+  };
 
   function error() {
     alert('Stream generation failed.');
@@ -56,15 +68,22 @@
     // we use the javascript node to draw at a
     // specific interval.
     analyser.connect(javascriptNode);
+    container = document.getElementById('meter_container');
 
     javascriptNode.onaudioprocess = function () {
-      var array, average;
+      var array, average, classes;
       // get the average for the first channel
       array =  new Uint8Array(analyser.frequencyBinCount);
       analyser.getByteFrequencyData(array);
       average = getAverageVolume(array);
       document.getElementById('volume_meter').value = average;
       document.getElementById('volume_meter_text').innerHTML = average;
+      classes = container.getAttribute('class').split(' ');
+      classes.remove('high');
+      if (average > 60) {
+        classes.push('high');
+      }
+      container.setAttribute('class', classes.join(' '));
     };
   }
 

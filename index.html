@@ -1,11 +1,24 @@
 <html>
   <head>
+    <title>Ingrid Intimidate</title>
+    <style><!--
+      #meter_container.high {
+        background: red;
+      }
+    --></style>
   </head>
   <body>
     <h1>Are you as awesome at intimidating as ingrid is?</h1>
     <p><img src="brask_pants_up.png" alt="brask pants up"/></p>
-    <p><meter max="150" value="0" id="volume_meter" /></p>
-    <p id="volume_meter_text" ></p>
+    <div id="meter_container" class="">
+      <p><meter max="150" value="0" id="volume_meter" /></p>
+      <p id="volume_meter_text" ></p>
+    </div>
     <script src="./js/main.js" type="text/javascript"></script>
+<!--
+app/bower_components/SoundJS/lib/soundjs-NEXT.min.js
+app/bower_components/SoundJS/lib/flashplugin-0.5.2.min.js
+app/bower_components/SoundJS/lib/soundjs.flashplugin-NEXT.min.js
+-->
   </body>
 </html>
