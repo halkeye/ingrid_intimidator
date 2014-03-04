@@ -2,8 +2,16 @@
   "use strict";
   // http://www.smartjava.org/content/exploring-html5-web-audio-visualizing-sound
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
+  window.requestAnimFrame = (function () {
+    return  window.requestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame    ||
+      function (callback) {
+        window.setTimeout(callback, 1000 / 60);
+      };
+  })();
   var audioContext, analyser, analyser2, javascriptNode, splitter, sourceNode,
-    firstSuccessTime, targetSuccessTime,  sustainTime, sustainValue,
+    firstSuccessTime, targetSuccessTime,  sustainTime, sustainValue, volume,
     elm_volume_meter, elm_volume_meter_text, elm_meter_container, elm_pie_timer;
 
   audioContext = new window.AudioContext();
@@ -14,7 +22,9 @@
   sustainTime = 1;
   sustainValue = 40;
 
-  elm_meter_container = document.getElementById('meter_container');
+  volume = 0;
+
+  elm_meter_container = $('#meter_container');
   elm_volume_meter = document.getElementById('volume_meter');
   elm_pie_timer = $('#volume_pie_timer');
   elm_pie_timer.knob({
@@ -87,40 +97,12 @@
     analyser.connect(javascriptNode);
 
     javascriptNode.onaudioprocess = function () {
-      var array, average, classes;
+      var array;
       // get the average for the first channel
       array =  new Uint8Array(analyser.frequencyBinCount);
       analyser.getByteFrequencyData(array);
-      average = getAverageVolume(array);
-      elm_volume_meter.value = average;
-      elm_volume_meter_text.innerHTML = average.toFixed(2) + " / " + sustainValue;
-      classes = elm_meter_container.getAttribute('class').split(' ');
-      classes.remove('high');
-      if (average > sustainValue) {
-        if (firstSuccessTime === 0) {
-          firstSuccessTime = new Date();
-          targetSuccessTime = new Date();
-          targetSuccessTime.setSeconds(targetSuccessTime.getSeconds() + sustainTime);
-          elm_pie_timer.parent().show();
-
-          /*elm_pie_timer.pietimer({
-            seconds: sustainTime
-          }); */
-        }
-        elm_pie_timer.val(((targetSuccessTime.getTime() - new Date().getTime()) / 1000).toFixed(2));
-        /* If we've sustained it for seconds */
-        if (new Date() >= targetSuccessTime) {
-          classes.push('high');
-          elm_pie_timer.parent().hide();
-        }
-      } else {
-        if (firstSuccessTime !== 0) {
-          elm_pie_timer.parent().hide();
-        }
-        firstSuccessTime = 0;
-        targetSuccessTime = 0;
-      }
-      elm_meter_container.setAttribute('class', classes.join(' '));
+      volume = getAverageVolume(array);
+      elm_volume_meter.value = volume;
     };
   }
 
@@ -139,4 +121,33 @@
   }
 
   getUserMedia({audio: true}, gotStream);
+  (function animloop() {
+    window.requestAnimFrame(animloop);
+    elm_volume_meter_text.innerHTML = volume.toFixed(2) + " / " + sustainValue;
+    if (volume > sustainValue) {
+      if (firstSuccessTime === 0) {
+        firstSuccessTime = new Date();
+        targetSuccessTime = new Date();
+        targetSuccessTime.setSeconds(targetSuccessTime.getSeconds() + sustainTime);
+        elm_pie_timer.parent().show();
+
+        /*elm_pie_timer.pietimer({
+          seconds: sustainTime
+        }); */
+      }
+      elm_pie_timer.val(((targetSuccessTime.getTime() - new Date().getTime()) / 1000).toFixed(2));
+      /* If we've sustained it for seconds */
+      if (new Date() >= targetSuccessTime) {
+        elm_meter_container.addClass('high');
+        elm_pie_timer.parent().hide();
+      }
+    } else {
+      if (firstSuccessTime !== 0) {
+        elm_meter_container.removeClass('high');
+        elm_pie_timer.parent().hide();
+      }
+      firstSuccessTime = 0;
+      targetSuccessTime = 0;
+    }
+  })();
 })(window.jQuery);
