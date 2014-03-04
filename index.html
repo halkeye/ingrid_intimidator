@@ -31,6 +31,7 @@
       meter::-webkit-meter-suboptimum-value {
         background: #87C7DE;
       }
+      #volume_pie_timer_container { height: 80px; width: 80px; }
 
 
     --></style>
@@ -45,6 +46,7 @@
           <td>
             <meter max="150" high="40" value="0" id="volume_meter"></meter>
             <p id="volume_meter_text" ></p>
+            <div id="volume_pie_timer_container"><input id="volume_pie_timer" data-height="80" data-width="80" data-readOnly=true /></div>
           </td>
           <td>
             <div id="brask"></div>
@@ -52,6 +54,8 @@
         </tr>
       </table>
     </div>
+    <script src="vendor/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="bower_components/jquery-knob/js/jquery.knob.js" type="text/javascript"></script>
     <script src="./js/main.js" type="text/javascript"></script>
   </body>
 </html>

@@ -1,10 +1,10 @@
-(function () {
+(function ($) {
   "use strict";
   // http://www.smartjava.org/content/exploring-html5-web-audio-visualizing-sound
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
   var audioContext, analyser, analyser2, javascriptNode, splitter, sourceNode,
     firstSuccessTime, targetSuccessTime,  sustainTime, sustainValue,
-    elm_volume_meter, elm_volume_meter_text, elm_meter_container;
+    elm_volume_meter, elm_volume_meter_text, elm_meter_container, elm_pie_timer;
 
   audioContext = new window.AudioContext();
   analyser = null;
@@ -16,6 +16,14 @@
 
   elm_meter_container = document.getElementById('meter_container');
   elm_volume_meter = document.getElementById('volume_meter');
+  elm_pie_timer = $('#volume_pie_timer');
+  elm_pie_timer.knob({
+    min: 0,
+    max: sustainTime
+  }).val(0);
+  setTimeout(function () {
+    elm_pie_timer.parent().hide();
+  }, 0);
   elm_volume_meter_text = document.getElementById('volume_meter_text');
 
   sustainValue = elm_volume_meter.high;
@@ -95,12 +103,22 @@
           firstSuccessTime = new Date();
           targetSuccessTime = new Date();
           targetSuccessTime.setSeconds(targetSuccessTime.getSeconds() + sustainTime);
+          elm_pie_timer.parent().show();
+
+          /*elm_pie_timer.pietimer({
+            seconds: sustainTime
+          }); */
         }
+        elm_pie_timer.val(((targetSuccessTime.getTime() - new Date().getTime()) / 1000).toFixed(2));
         /* If we've sustained it for seconds */
         if (new Date() >= targetSuccessTime) {
           classes.push('high');
+          elm_pie_timer.parent().hide();
         }
       } else {
+        if (firstSuccessTime !== 0) {
+          elm_pie_timer.parent().hide();
+        }
         firstSuccessTime = 0;
         targetSuccessTime = 0;
       }
@@ -123,4 +141,4 @@
   }
 
   getUserMedia({audio: true}, gotStream);
-})();
+})(window.jQuery);
