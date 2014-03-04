@@ -12,7 +12,7 @@
   firstSuccessTime = 0;
   targetSuccessTime = 0;
   sustainTime = 1;
-  sustainValue = 60;
+  sustainValue = 40;
 
   elm_meter_container = document.getElementById('meter_container');
   elm_volume_meter = document.getElementById('volume_meter');
@@ -97,7 +97,7 @@
           targetSuccessTime.setSeconds(targetSuccessTime.getSeconds() + sustainTime);
         }
         /* If we've sustained it for seconds */
-        if (new Date() > targetSuccessTime) {
+        if (new Date() >= targetSuccessTime) {
           classes.push('high');
         }
       } else {
