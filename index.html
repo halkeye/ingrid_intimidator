@@ -2,17 +2,43 @@
   <head>
     <title>Ingrid Intimidate</title>
     <style><!--
-      #meter_container.high {
-        background: red;
+      body, html { margin: 0; padding: 0; height: 100% }
+      #meter_container.high #brask {
+        background-image: url(img/brask_no_pants.png);
+      }
+
+      #ingrid { 
+        float: left;
+        height: 300px;
+        width: 200px;
+        background-repeat: no-repeat;
+        background-image: url(img/ingrid_facing_right.png);
+      }
+      #brask { 
+        float: left;
+        height: 300px;
+        width: 200px;
+        background-repeat: no-repeat;
+        background-image: url(img/brask_pants.png);
       }
     --></style>
   </head>
   <body>
     <h1>Are you as awesome at intimidating as ingrid is?</h1>
-    <p><img src="brask_pants_up.png" alt="brask pants up"/></p>
     <div id="meter_container" class="">
-      <p><meter max="150" value="0" id="volume_meter" /></p>
-      <p id="volume_meter_text" ></p>
+      <!-- i'm lazy, td's work fine for this -->
+      <table>
+        <tr>
+          <td><div id="ingrid"></div></td>
+          <td>
+            <meter max="150" value="0" id="volume_meter" />
+            <p id="volume_meter_text" ></p>
+          </td>
+          <td>
+            <div id="brask"></div>
+          </td>
+        </tr>
+      </table>
     </div>
     <script src="./js/main.js" type="text/javascript"></script>
 <!--
