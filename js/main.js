@@ -21,9 +21,7 @@
     min: 0,
     max: sustainTime
   }).val(0);
-  setTimeout(function () {
-    elm_pie_timer.parent().hide();
-  }, 0);
+  elm_pie_timer.parent().hide();
   elm_volume_meter_text = document.getElementById('volume_meter_text');
 
   sustainValue = elm_volume_meter.high;
