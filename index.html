@@ -21,6 +21,16 @@
         background-repeat: no-repeat;
         background-image: url(img/brask_pants.png);
       }
+      meter { -webkit-appearance: none; }
+      meter::-webkit-meter-bar {
+        background: #FFF;
+        border: 1px solid #CCC;
+      }
+      meter::-webkit-meter-suboptimum-value {
+        background: #87C7DE;
+      }
+
+
     --></style>
   </head>
   <body>
@@ -31,7 +41,7 @@
         <tr>
           <td><div id="ingrid"></div></td>
           <td>
-            <meter max="150" value="0" id="volume_meter"></meter>
+            <meter max="150" high="40" value="0" id="volume_meter"></meter>
             <p id="volume_meter_text" ></p>
           </td>
           <td>

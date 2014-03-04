@@ -18,7 +18,7 @@
   elm_volume_meter = document.getElementById('volume_meter');
   elm_volume_meter_text = document.getElementById('volume_meter_text');
 
-  elm_volume_meter.max = sustainValue;
+  sustainValue = elm_volume_meter.high;
 
   Array.prototype.remove = function () {
     var what, a = arguments, L = a.length, ax;
@@ -87,7 +87,7 @@
       analyser.getByteFrequencyData(array);
       average = getAverageVolume(array);
       elm_volume_meter.value = average;
-      elm_volume_meter_text.innerHTML = average.toFixed(4);
+      elm_volume_meter_text.innerHTML = average.toFixed(2) + " / " + sustainValue;
       classes = elm_meter_container.getAttribute('class').split(' ');
       classes.remove('high');
       if (average > sustainValue) {
