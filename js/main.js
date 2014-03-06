@@ -182,7 +182,7 @@
   (function animloop() {
     var time = 0;
     window.requestAnimFrame(animloop);
-    elm_volume_meter_text.text(volume.toFixed(2) + "dB of target " + sustainValue.toFixed(2) + "dB");
+    elm_volume_meter_text.text(volume.toFixed(2) + "dB of " + sustainValue.toFixed(2) + "dB");
     if (volume > sustainValue) {
       if (targetSuccessTime === 0) {
         targetSuccessTime = new Date();

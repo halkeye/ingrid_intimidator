@@ -12,6 +12,7 @@
     <meta name="google-signin-scope" content="https://www.googleapis.com/auth/games" />
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
 
     <style><!--
       #main_container {
@@ -31,6 +32,11 @@
       }
       #meter_container #volume_timer_held_label {
         display: none;
+      }
+      #meter_container.high #volume_timer_container { 
+        font-weight: bold;
+        font-size: 2em;
+        color: green;
       }
 
       #ingrid { 
@@ -106,7 +112,10 @@
           <p id="volume_meter_text" ></p>
           <div id="volume_timer_container">
             <span id="volume_timer_hold_label">Hold</span>
-            <span id="volume_timer_held_label">Held</span>
+            <span id="volume_timer_held_label">
+              <i class="fa fa-star-o"></i>
+              Awesome! Held 
+            </span>
             for <span id="volume_timer">1 min</span>
           </div>
         </div>
