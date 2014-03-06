@@ -1,0 +1,69 @@
+@import "bower_components/bootstrap/less/bootstrap.less";
+@import "bower_components/bootstrap/less/theme.less";
+@import "bower_components/fontawesome/less/font-awesome.less";
+
+#main_container {
+  padding: 40px 15px;
+}
+
+#meter_container:extend(.container-fluid) {};
+
+#meter_container {
+  @media (max-width: @screen-xs-max) {
+    padding: 0;
+    margin: 0;
+  }
+  #volume_timer_hold_label {
+    display: inline;
+  }
+  #volume_timer_held_label {
+    display: none;
+  }
+  #ingrid { 
+    float: left;
+    height: 300px;
+    width: 161px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-image: url(../img/ingrid_facing_right.png);
+  }
+
+  #brask { 
+    float: left;
+    height: 300px;
+    width: 200px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-image: url(../img/brask_pants.png);
+  }
+}
+#meter_container.high {
+  #brask {
+    background-image: url(../img/brask_no_pants.png);
+  }
+  #volume_timer_hold_label {
+    display: none;
+  }
+  #volume_timer_held_label {
+    display: inline;
+  }
+  #volume_timer_container { 
+    font-weight: bold;
+    font-size: 2em;
+    color: green;
+  }
+}
+
+
+meter {
+  -webkit-appearance: none; 
+  width: 100%;
+}
+meter::-webkit-meter-bar {
+  background: #FFF;
+  border: 1px solid #CCC;
+}
+meter::-webkit-meter-suboptimum-value {
+  background: #87C7DE;
+}
+#volume_pie_timer_container { height: 80px; width: 80px; }

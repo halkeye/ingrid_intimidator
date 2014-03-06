@@ -10,66 +10,7 @@
     <meta name="google-signin-cookiepolicy" content="single_host_origin" />
     <meta name="google-signin-callback" content="pageSigninCallback" />
     <meta name="google-signin-scope" content="https://www.googleapis.com/auth/games" />
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
-
-    <style><!--
-      #main_container {
-        padding: 40px 15px;
-      }
-      #meter_container.high #brask {
-        background-image: url(img/brask_no_pants.png);
-      }
-      #meter_container.high #volume_timer_hold_label {
-        display: none;
-      }
-      #meter_container.high #volume_timer_held_label {
-        display: inline;
-      }
-      #meter_container #volume_timer_hold_label {
-        display: inline;
-      }
-      #meter_container #volume_timer_held_label {
-        display: none;
-      }
-      #meter_container.high #volume_timer_container { 
-        font-weight: bold;
-        font-size: 2em;
-        color: green;
-      }
-
-      #ingrid { 
-        float: left;
-        height: 300px;
-        width: 161px;
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        background-image: url(img/ingrid_facing_right.png);
-      }
-      #brask { 
-        float: left;
-        height: 300px;
-        width: 200px;
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        background-image: url(img/brask_pants.png);
-      }
-      meter {
-        -webkit-appearance: none; 
-        width: 100%;
-      }
-      meter::-webkit-meter-bar {
-        background: #FFF;
-        border: 1px solid #CCC;
-      }
-      meter::-webkit-meter-suboptimum-value {
-        background: #87C7DE;
-      }
-      #volume_pie_timer_container { height: 80px; width: 80px; }
-
-
-    --></style>
+    <link rel="stylesheet" href="less/app.less.css">
   </head>
   <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -103,26 +44,26 @@
         <li>Yell as long as you can</li>
         <li>Keep yelling for at least 1 seconds</li>
       </ol>
-      <div id="meter_container" class="row">
-        <div class="col-md-2">
-          <div id="ingrid"></div>
-        </div>
-        <div class="col-md-2">
-          <meter max="150" high="40" value="0" id="volume_meter"></meter>
-          <p id="volume_meter_text" ></p>
-          <div id="volume_timer_container">
-            <span id="volume_timer_hold_label">Hold</span>
-            <span id="volume_timer_held_label">
-              <i class="fa fa-star-o"></i>
-              Awesome! Held 
-            </span>
-            for <span id="volume_timer">1 min</span>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div id="brask"></div>
+    </div>
+    <div id="meter_container">
+      <div id="ingrid"></div>
+      <div class="col-xs-2 col-md-2">
+        <meter max="150" high="40" value="0" id="volume_meter"></meter>
+        <p id="volume_meter_text" ></p>
+        <div id="volume_timer_container">
+          <span id="volume_timer_hold_label">Hold</span>
+          <span id="volume_timer_held_label">
+            <i class="fa fa-star-o"></i>
+            Awesome! Held 
+          </span>
+          for <span id="volume_timer">1 min</span>
         </div>
       </div>
+      <div class="col-xs-3 col-md-3">
+        <div id="brask"></div>
+      </div>
+    </div>
+    <div class="container">
       <br/>
 
       <div id="leaderboard" class="hide panel panel-default">
@@ -160,6 +101,7 @@
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="bower_components/HumanizeDuration.js/humanize-duration.js" type="text/javascript"></script>
     <script src="./js/main.js" type="text/javascript"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.7.0/less.min.js"></script>
     <!--    <script src="https://apis.google.com/js/client.js"></script>  -->
   </body>
 </html>
