@@ -1,0 +1,14 @@
+{
+  "name": "HumanizeDuration.js",
+  "homepage": "https://github.com/EvanHahn/HumanizeDuration.js",
+  "_release": "6b8819c005",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "6b8819c0057dc197f7d3d36c0e45f7ceb9251785"
+  },
+  "_source": "https://github.com/EvanHahn/HumanizeDuration.js.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/EvanHahn/HumanizeDuration.js.git",
+  "_direct": true
+}

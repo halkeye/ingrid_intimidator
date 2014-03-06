@@ -1,0 +1,51 @@
+{
+  "name": "humanize-duration",
+  "author": "Evan Hahn",
+  "version": "0.6.1",
+  "description": "Convert millisecond durations to English or many other languages.",
+  "main": "humanize-duration.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "devDependencies": {
+    "mocha": "1.17.x",
+    "chai": "1.8.x",
+    "sugar": "1.4.x"
+  },
+  "keywords": [
+    "humanize", "duration",
+    "time", "hours", "minutes", "seconds", "days", "years", "months",
+    "english", "spanish", "french", "catalan", "portuguese", "korean",
+    "norwegian", "german"
+  ],
+  "jshintConfig": {
+    "bitwise": true,
+    "camelcase": true,
+    "curly": false,
+    "eqeqeq": false,
+    "es3": true,
+    "freeze": true,
+    "immed": true,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "noempty": true,
+    "nonew": true,
+    "plusplus": false,
+    "quotmark": true,
+    "undef": true,
+    "unused": true,
+    "strict": false,
+    "trailing": true,
+    "predef": [
+      "module",
+      "require",
+      "describe", "it", "beforeEach"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/EvanHahn/HumanizeDuration.js.git"
+  },
+  "license": "WTFPL"
+}

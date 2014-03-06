@@ -1,4 +1,4 @@
-(function ($) {
+(function ($, humanizeDuration) {
   "use strict";
   // http://www.smartjava.org/content/exploring-html5-web-audio-visualizing-sound
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -12,7 +12,8 @@
   })();
   var audioContext, analyser, analyser2, javascriptNode, splitter, sourceNode,
     firstSuccessTime, targetSuccessTime,  sustainTime, sustainValue, volume,
-    elm_volume_meter, elm_volume_meter_text, elm_meter_container, elm_pie_timer;
+    elm_volume_meter, elm_volume_meter_text, elm_meter_container, elm_pie_timer,
+    loadLeaderboard, submitScore;
 
   audioContext = new window.AudioContext();
   analyser = null;
@@ -36,6 +37,65 @@
 
   sustainValue = elm_volume_meter.high;
 
+  loadLeaderboard = function () {
+    window.gapi.client.load('games', 'v1', function () {
+      var score_list_config, request;
+      //gapi.client.games.leaderboards.get({leaderboardId: "CgkIlZWPs-MEEAIQAQ" }).execute(function(response) {
+      score_list_config = {
+        collection: 'social',
+        leaderboardId: "CgkIlZWPs-MEEAIQAQ",
+        timeSpan: 'ALL_TIME',
+        maxResults: 20
+      };
+      request = window.gapi.client.games.scores.list(score_list_config);
+      request.execute(function (response) {
+        var tbody = $('#leaderboard').removeClass('hide').find('tbody');
+        tbody.empty();
+        if (response.numScores !== "0") {
+          $.each(response.items, function (idx, val) {
+            console.log(val);
+            var tr = $('<tr>').appendTo(tbody);
+            $('<td>').text(val.formattedScoreRank).appendTo(tr);
+            $('<td>').text(val.player.displayName).appendTo(tr);
+            $('<td>').text(humanizeDuration(val.scoreValue)).appendTo(tr);
+          });
+        }
+      });
+    });
+  };
+  submitScore = function (score) {
+    if (!window.gapi) { return; }
+    if (score <= 0) { return; }
+    window.gapi.client.load('games', 'v1', function () {
+      var score_list_config, request;
+      score_list_config = {
+        leaderboardId: "CgkIlZWPs-MEEAIQAQ",
+        score: score
+      };
+      request = window.gapi.client.games.scores.submit(score_list_config);
+      request.execute(function (response) {
+        loadLeaderboard();
+      });
+    });
+  };
+
+  window.pageSigninCallback = function (auth) {
+    loadLeaderboard();
+    if (auth && !auth.error) {
+      // Hooray! The user is logged int!
+      // If we got here from a sign-in button, we should probably hide it
+      $('#signin_button').addClass('hide');
+    } else {
+      // Common reasons are immediate_failed and user_signed_out
+      if (auth && auth.error) {
+        console.log('Sign in failed because: ', auth.error);
+      }
+      $('#signin_button').click(function () {
+        window.gapi.auth.signIn();
+      }).removeClass('hide');
+    }
+  };
+
   Array.prototype.remove = function () {
     var what, a = arguments, L = a.length, ax;
     while (L && this.length) {
@@ -47,8 +107,12 @@
     return this;
   };
 
-  function error() {
-    alert('Stream generation failed.');
+  function get_user_media_error(err) {
+    if (console && console.error) {
+      console.error('Stream generation failed.', err)
+    } else {
+      alert('Stream generation failed.');
+    }
   }
   function getUserMedia(dictionary, callback) {
     try {
@@ -57,7 +121,7 @@
         navigator.webkitGetUserMedia ||
         navigator.mozGetUserMedia;
 
-      navigator.getUserMedia(dictionary, callback, error);
+      navigator.getUserMedia(dictionary, callback, get_user_media_error);
     } catch (e) {
       alert('getUserMedia threw exception :' + e);
     }
@@ -143,6 +207,7 @@
       }
     } else {
       if (firstSuccessTime !== 0) {
+        submitScore(new Date().getTime() - firstSuccessTime.getTime());
         elm_meter_container.removeClass('high');
         elm_pie_timer.parent().hide();
       }
@@ -150,4 +215,4 @@
       targetSuccessTime = 0;
     }
   })();
-})(window.jQuery);
+})(window.jQuery, window.humanizeDuration);
