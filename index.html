@@ -20,11 +20,23 @@
       #meter_container.high #brask {
         background-image: url(img/brask_no_pants.png);
       }
+      #meter_container.high #volume_timer_hold_label {
+        display: none;
+      }
+      #meter_container.high #volume_timer_held_label {
+        display: inline;
+      }
+      #meter_container #volume_timer_hold_label {
+        display: inline;
+      }
+      #meter_container #volume_timer_held_label {
+        display: none;
+      }
 
       #ingrid { 
         float: left;
         height: 300px;
-        width: 200px;
+        width: 161px;
         background-size: 100% 100%;
         background-repeat: no-repeat;
         background-image: url(img/ingrid_facing_right.png);
@@ -37,7 +49,10 @@
         background-repeat: no-repeat;
         background-image: url(img/brask_pants.png);
       }
-      meter { -webkit-appearance: none; }
+      meter {
+        -webkit-appearance: none; 
+        width: 100%;
+      }
       meter::-webkit-meter-bar {
         background: #FFF;
         border: 1px solid #CCC;
@@ -83,13 +98,17 @@
         <li>Keep yelling for at least 1 seconds</li>
       </ol>
       <div id="meter_container" class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div id="ingrid"></div>
         </div>
         <div class="col-md-2">
           <meter max="150" high="40" value="0" id="volume_meter"></meter>
           <p id="volume_meter_text" ></p>
-          <div id="volume_pie_timer_container"><input id="volume_pie_timer" data-height="80" data-width="80" data-readOnly=true /></div>
+          <div id="volume_timer_container">
+            <span id="volume_timer_hold_label">Hold</span>
+            <span id="volume_timer_held_label">Held</span>
+            for <span id="volume_timer">1 min</span>
+          </div>
         </div>
         <div class="col-md-3">
           <div id="brask"></div>
@@ -117,7 +136,6 @@
       </div>
     </div>
     <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
-    <script src="bower_components/jquery-knob/js/jquery.knob.js" type="text/javascript"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="bower_components/HumanizeDuration.js/humanize-duration.js" type="text/javascript"></script>
     <script src="./js/main.js" type="text/javascript"></script> 

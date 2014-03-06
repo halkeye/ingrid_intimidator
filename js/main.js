@@ -11,14 +11,13 @@
       };
   })();
   var audioContext, analyser, analyser2, javascriptNode, splitter, sourceNode,
-    firstSuccessTime, targetSuccessTime,  sustainTime, sustainValue, volume,
-    elm_volume_meter, elm_volume_meter_text, elm_meter_container, elm_pie_timer,
+    targetSuccessTime,  sustainTime, sustainValue, volume,
+    elm_volume_meter, elm_volume_meter_text, elm_meter_container, elm_timer,
     loadLeaderboard, submitScore;
 
   audioContext = new window.AudioContext();
   analyser = null;
   javascriptNode = null;
-  firstSuccessTime = 0;
   targetSuccessTime = 0;
   sustainTime = 1;
   sustainValue = 40;
@@ -26,16 +25,11 @@
   volume = 0;
 
   elm_meter_container = $('#meter_container');
-  elm_volume_meter = document.getElementById('volume_meter');
-  elm_pie_timer = $('#volume_pie_timer');
-  elm_pie_timer.knob({
-    min: 0,
-    max: sustainTime
-  }).val(0);
-  elm_pie_timer.parent().hide();
-  elm_volume_meter_text = document.getElementById('volume_meter_text');
+  elm_volume_meter = $('#volume_meter');
+  elm_timer = $('#volume_timer');
+  elm_volume_meter_text = $('#volume_meter_text');
 
-  sustainValue = elm_volume_meter.high;
+  sustainValue = parseInt(elm_volume_meter.attr('high'), 10);
 
   loadLeaderboard = function () {
     window.gapi.client.load('games', 'v1', function () {
@@ -166,7 +160,7 @@
       array =  new Uint8Array(analyser.frequencyBinCount);
       analyser.getByteFrequencyData(array);
       volume = getAverageVolume(array);
-      elm_volume_meter.value = volume;
+      elm_volume_meter.attr('value', volume);
     };
   }
 
@@ -186,33 +180,29 @@
 
   getUserMedia({audio: true}, gotStream);
   (function animloop() {
+    var time = 0;
     window.requestAnimFrame(animloop);
-    elm_volume_meter_text.innerHTML = volume.toFixed(2) + " / " + sustainValue;
+    elm_volume_meter_text.text(volume.toFixed(2) + "dB of target " + sustainValue.toFixed(2) + "dB");
     if (volume > sustainValue) {
-      if (firstSuccessTime === 0) {
-        firstSuccessTime = new Date();
+      if (targetSuccessTime === 0) {
         targetSuccessTime = new Date();
         targetSuccessTime.setSeconds(targetSuccessTime.getSeconds() + sustainTime);
-        elm_pie_timer.parent().show();
-
-        /*elm_pie_timer.pietimer({
-          seconds: sustainTime
-        }); */
       }
-      elm_pie_timer.val(((targetSuccessTime.getTime() - new Date().getTime()) / 1000).toFixed(2));
       /* If we've sustained it for seconds */
       if (new Date() >= targetSuccessTime) {
         elm_meter_container.addClass('high');
-        elm_pie_timer.parent().hide();
+        time = new Date().getTime() - targetSuccessTime.getTime();
+      } else {
+        time = ((targetSuccessTime.getTime() - new Date().getTime()));
       }
+      elm_timer.text(humanizeDuration(time));
     } else {
-      if (firstSuccessTime !== 0) {
-        submitScore(new Date().getTime() - firstSuccessTime.getTime());
+      if (targetSuccessTime !== 0) {
+        submitScore(new Date().getTime() - targetSuccessTime.getTime());
         elm_meter_container.removeClass('high');
-        elm_pie_timer.parent().hide();
       }
-      firstSuccessTime = 0;
       targetSuccessTime = 0;
+      elm_timer.text(humanizeDuration(sustainTime * 1000));
     }
   })();
 })(window.jQuery, window.humanizeDuration);
