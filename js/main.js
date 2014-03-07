@@ -11,7 +11,7 @@
       };
   })();
   var audioContext, analyser, analyser2, javascriptNode, splitter, sourceNode,
-    targetSuccessTime,  sustainTime, sustainValue, volume,
+    targetSuccessTime,  sustainTime, sustainValue, volume, baseVolume,
     elm_volume_meter, elm_volume_meter_text, elm_meter_container, elm_timer,
     loadLeaderboard, submitScore;
 
@@ -23,6 +23,7 @@
   sustainValue = 40;
 
   volume = 0;
+  baseVolume = -1;
 
   elm_meter_container = $('#meter_container');
   elm_volume_meter = $('#volume_meter');
@@ -160,6 +161,14 @@
       array =  new Uint8Array(analyser.frequencyBinCount);
       analyser.getByteFrequencyData(array);
       volume = getAverageVolume(array);
+      if (baseVolume === -1) {
+        if (volume !== 0.0) {
+          baseVolume = volume;
+          console.log("baseVolume", baseVolume);
+        }
+      } else {
+        volume = Math.max(volume - baseVolume, 0);
+      }
       elm_volume_meter.attr('value', volume);
     };
   }
