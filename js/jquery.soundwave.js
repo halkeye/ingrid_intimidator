@@ -1,7 +1,7 @@
 (function ($, tinycolor) {
   "use strict";
 
-  $.fn.sound_wave = function () {
+  $.fn.sound_wave = function (settings) {
     window.CanvasRenderingContext2D.prototype.clear =
     window.CanvasRenderingContext2D.prototype.clear || function (preserveTransform) {
       if (preserveTransform) {
@@ -29,13 +29,14 @@
       var context = canvas.getContext('2d');
       context.clear();
 
-      var settings = {
+      var defaults = {
         line_width: canvas.width / 10,
         line_gap: canvas.width / 10,
         angle: 10,
         angle_growth: 0.10,
         color: '#0000FF'
-      }
+      };
+      settings = $.extend({}, settings, defaults);
 
       var radius = canvas.height / 2;
       var x_growth = settings.line_width + settings.line_gap;
