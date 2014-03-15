@@ -10,6 +10,10 @@
         window.setTimeout(callback, 1000 / 60);
       };
   })();
+  $('#splashmodal').modal('show').on('click', '*', function () {
+    $('#splashmodal').modal('hide')
+  });
+
   var audioContext, analyser, analyser2, javascriptNode, splitter, sourceNode,
     targetSuccessTime,  sustainTime, sustainValue, volume, baseVolume,
     elm_volume_meter, elm_volume_meter_text, elm_meter_container, elm_timer,

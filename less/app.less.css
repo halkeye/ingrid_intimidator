@@ -6119,6 +6119,27 @@ button.close {
 #main_container {
   padding: 40px 15px;
 }
+#splashsection {
+  display: table-cell;
+  min-height: 375px;
+}
+#splashsection h1 {
+  font-size: 30px;
+  font-size: 3rem;
+}
+#splashsection #ingrid {
+  float: left;
+  height: 300px;
+  width: 161px;
+  margin-right: 2em;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url(../img/ingrid_facing_right.png);
+}
+#splashsection #instructions h3 {
+  font-size: 20px;
+  font-size: 2rem;
+}
 @media (max-width: 767px) {
   #meter_container {
     padding: 0;
@@ -6131,16 +6152,9 @@ button.close {
 #meter_container #volume_timer_held_label {
   display: none;
 }
-#meter_container #ingrid {
-  float: left;
-  height: 300px;
-  width: 161px;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-image: url(../img/ingrid_facing_right.png);
-}
 #meter_container #brask {
   float: left;
+  margin-right: 10px;
   height: 300px;
   width: 200px;
   background-size: 100% 100%;
@@ -6158,8 +6172,15 @@ button.close {
 }
 #meter_container.high #volume_timer_container {
   font-weight: bold;
-  font-size: 2em;
+  font-size: 20px;
+  font-size: 2rem;
   color: green;
+}
+#meter_container .data {
+  padding-left: 210px;
+  width: 100%;
+  height: 100%;
+  width: auto;
 }
 meter {
   -webkit-appearance: none;
