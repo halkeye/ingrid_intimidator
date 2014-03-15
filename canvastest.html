@@ -6,50 +6,51 @@
         margin: 0px;
         padding: 0px;
       }
+      .canvas_container {
+        margin: 10px;
+        display: inline-block;
+      }
       canvas {
         border: 1px solid black;
       }
+      .isResizable {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid black;
+            overflow: hidden;
+            resize: both;
+            width: 160px;
+            height: 120px;
+            min-width: 120px;
+            min-height: 90px;
+            max-width: 400px;
+            max-height: 300px;
+        }
     </style>
   </head>
   <body>
-    <canvas id="myCanvas" width="75" height="75"></canvas>
-    <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    <div class="canvases">
+      <script>
+        [
+          [75,75], [150,150],[225,225],
+          [200,100],[100,200]
+        ].forEach(function(val) {
+          document.write('<div class="canvas_container">');
+          document.write('<canvas width="'+val[0]+'" height="'+val[1]+'"></canvas>');
+          document.write('<br/>' + val[0] + 'x' + val[1]);
+          document.write('</div>');
+        });
+      </script>
+    </div>
+
+
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="bower_components/tinycolor/dist/tinycolor-min.js" ></script>
+    <script type="text/javascript" src="js/jquery.soundwave.js" ></script>
+
     <script>
-      var canvas = document.getElementById('myCanvas');
-      var context = canvas.getContext('2d');
-
-      var radius = canvas.height/2;
-      var line_width = canvas.width/10;
-      var x_growth = line_width * 2;
-      var angle = 10;
-      var angle_growth = 0.10;
-
-      var times = [];
-      var colors = [];
-      var total_slices = ((canvas.width-line_width) / x_growth);
-      for (var i = 0; i < total_slices; i++)
-      {
-        times.push(i);
-        colors.push(tinycolor.darken('#0000FF', total_slices*i).toHexString());
-      }
-      //colors = colors.reverse();
-      times.forEach(function(offset) {
-        var x = (-radius+line_width) + x_growth*offset;
-        var start_angle = -(Math.PI/angle) - (angle_growth*offset);
-        var end_angle = (Math.PI/angle) + (angle_growth*offset);
-        context.beginPath();
-        context.lineWidth = line_width;
-        context.arc(x, radius/*y*/, radius, start_angle, end_angle, false/*counter_clockwise*/);
-
-        /*
-        var blue = (255/(times.length+2))*(offset+3);
-        var color = 'rgb(0,0,'+blue.toFixed(0)+')';
-        console.log(color);
-        */
-        context.strokeStyle = colors.pop(); //color; //tinycolor.darken('#0000FF', times.length*offset).toHexString();
-        context.stroke();
-      });
+    (function ( $ ) {
+      $('canvas').sound_wave();
+    })(jQuery);
     </script>
   </body>
 </html>
