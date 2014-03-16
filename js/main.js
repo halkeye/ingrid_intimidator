@@ -199,7 +199,7 @@
     var percent_done = (volume / sustainValue).toFixed(3) * 100;
     elm_volume_indicator.sound_wave({ percent_shown: percent_done, skip_tiny: true });
 
-    elm_volume_meter_text.text(volume.toFixed(2) + "dB of " + sustainValue.toFixed(2) + "dB");
+    elm_volume_meter_text.text(window.sprintf("%05.2fdB of %05.2fdB", volume, sustainValue));
     if (volume > sustainValue) {
       if (targetSuccessTime === 0) {
         targetSuccessTime = new Date();
