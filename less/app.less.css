@@ -725,29 +725,32 @@ pre code {
   max-height: 340px;
   overflow-y: scroll;
 }
-.container {
+.container,
+#leaderboard {
   margin-right: auto;
   margin-left: auto;
   padding-left: 15px;
   padding-right: 15px;
 }
 @media (min-width: 768px) {
-  .container {
+  .container,
+  #leaderboard {
     width: 750px;
   }
 }
 @media (min-width: 992px) {
-  .container {
+  .container,
+  #leaderboard {
     width: 970px;
   }
 }
 @media (min-width: 1200px) {
-  .container {
+  .container,
+  #leaderboard {
     width: 1170px;
   }
 }
-.container-fluid,
-#meter_container {
+.container-fluid {
   margin-right: auto;
   margin-left: auto;
   padding-left: 15px;
@@ -3683,7 +3686,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .container > .navbar-header,
 .container-fluid > .navbar-header,
 .container > .navbar-collapse,
-.container-fluid > .navbar-collapse {
+.container-fluid > .navbar-collapse,
+#leaderboard > .navbar-header,
+#leaderboard > .navbar-collapse {
   margin-right: -15px;
   margin-left: -15px;
 }
@@ -3691,7 +3696,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .container > .navbar-header,
   .container-fluid > .navbar-header,
   .container > .navbar-collapse,
-  .container-fluid > .navbar-collapse {
+  .container-fluid > .navbar-collapse,
+  #leaderboard > .navbar-header,
+  #leaderboard > .navbar-collapse {
     margin-right: 0;
     margin-left: 0;
   }
@@ -3740,7 +3747,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 @media (min-width: 768px) {
   .navbar > .container .navbar-brand,
-  .navbar > .container-fluid .navbar-brand {
+  .navbar > .container-fluid .navbar-brand,
+  .navbar > #leaderboard .navbar-brand {
     margin-left: -15px;
   }
 }
@@ -4355,38 +4363,51 @@ a.list-group-item.active > .badge,
 .nav-pills > li > a > .badge {
   margin-left: 3px;
 }
-.jumbotron {
+.jumbotron,
+#extra_info {
   padding: 30px;
   margin-bottom: 30px;
   color: inherit;
   background-color: #eeeeee;
 }
 .jumbotron h1,
-.jumbotron .h1 {
+.jumbotron .h1,
+#extra_info h1,
+#extra_info .h1 {
   color: inherit;
 }
-.jumbotron p {
+.jumbotron p,
+#extra_info p {
   margin-bottom: 15px;
   font-size: 21px;
   font-weight: 200;
 }
-.container .jumbotron {
+.container .jumbotron,
+#leaderboard .jumbotron,
+.container #extra_info {
   border-radius: 6px;
 }
-.jumbotron .container {
+.jumbotron .container,
+.jumbotron #leaderboard,
+#extra_info .container {
   max-width: 100%;
 }
 @media screen and (min-width: 768px) {
-  .jumbotron {
+  .jumbotron,
+  #extra_info {
     padding-top: 48px;
     padding-bottom: 48px;
   }
-  .container .jumbotron {
+  .container .jumbotron,
+  #leaderboard .jumbotron,
+  .container #extra_info {
     padding-left: 60px;
     padding-right: 60px;
   }
   .jumbotron h1,
-  .jumbotron .h1 {
+  .jumbotron .h1,
+  #extra_info h1,
+  #extra_info .h1 {
     font-size: 63px;
   }
 }
@@ -5608,8 +5629,8 @@ button.close {
 .panel-body:after,
 .modal-footer:before,
 .modal-footer:after,
-#meter_container:before,
-#meter_container:after {
+#leaderboard:before,
+#leaderboard:after {
   content: " ";
   display: table;
 }
@@ -5627,7 +5648,7 @@ button.close {
 .pager:after,
 .panel-body:after,
 .modal-footer:after,
-#meter_container:after {
+#leaderboard:after {
   clear: both;
 }
 .center-block {
@@ -6176,4 +6197,10 @@ button.close {
   font-size: 20px;
   font-size: 2rem;
   color: green;
+}
+#leaderboard {
+  margin-top: 3em;
+}
+#extra_info {
+  margin-top: 3em;
 }
