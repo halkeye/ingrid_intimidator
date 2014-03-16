@@ -31,12 +31,13 @@
     <div class="canvases">
       <script>
         [
-          [75,75], [150,150],[225,225],
-          [200,100],[100,200]
+          [75,75],[150,150],[225,225],[200,100],[100,200],
+          [75,75,25],[150,150,50],[225,225,75]
         ].forEach(function(val) {
           document.write('<div class="canvas_container">');
-          document.write('<canvas width="'+val[0]+'" height="'+val[1]+'"></canvas>');
+          document.write('<canvas width="'+val[0]+'" height="'+val[1]+'" data-percent="'+(val[2]||100)+'"></canvas>');
           document.write('<br/>' + val[0] + 'x' + val[1]);
+          document.write(' - ' + (val[2]||100) +'%');
           document.write('</div>');
         });
       </script>
@@ -49,7 +50,12 @@
 
     <script>
     (function ( $ ) {
-      $('canvas').sound_wave();
+      $('canvas').each(function() {
+        var $this = $(this);
+        $this.sound_wave({
+          percent_shown: $this.data('percent')
+        });
+      });
     })(jQuery);
     </script>
   </body>

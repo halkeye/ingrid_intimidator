@@ -1,7 +1,7 @@
 (function ($, tinycolor) {
   "use strict";
 
-  $.fn.sound_wave = function (settings) {
+  $.fn.sound_wave = function (config) {
     window.CanvasRenderingContext2D.prototype.clear =
     window.CanvasRenderingContext2D.prototype.clear || function (preserveTransform) {
       if (preserveTransform) {
@@ -34,10 +34,10 @@
         line_gap: canvas.width / 10,
         angle: 10,
         angle_growth: 0.10,
-        color: '#0000FF'
+        color: '#0000FF',
+        percent_shown: 100,
       };
-      settings = $.extend({}, settings, defaults);
-
+      var settings = $.extend({}, defaults, config);
       var radius = canvas.height / 2;
       var x_growth = settings.line_width + settings.line_gap;
 
@@ -54,6 +54,8 @@
           var color = 'rgb(0,0,'+blue.toFixed(0)+')';
           colors.unshift(color);
         }
+        var percent_complete = (times.length / total_slices)*100;
+        if (settings.percent_shown <= percent_complete) { break; }
       }
       times.forEach(function (offset) {
         var x = (-radius + settings.line_width) + x_growth * offset;
