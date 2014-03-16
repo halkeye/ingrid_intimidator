@@ -31,7 +31,7 @@
 
       var defaults = {
         line_width: canvas.width / 10,
-        line_gap: canvas.width / 10,
+        line_gap: 10,
         angle: 10,
         angle_growth: 0.10,
         color: '#0000FF',

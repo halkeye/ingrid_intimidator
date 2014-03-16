@@ -27,7 +27,7 @@
   javascriptNode = null;
   targetSuccessTime = 0;
   sustainTime = 1;
-  sustainValue = 40;
+  sustainValue = parseInt($('body').data('volumeHigh'), 10);
 
   volume = 0;
   baseVolume = -1;
@@ -36,8 +36,6 @@
   elm_volume_meter = $('#volume_meter');
   elm_timer = $('#volume_timer');
   elm_volume_meter_text = $('#volume_meter_text');
-
-  sustainValue = parseInt(elm_volume_meter.attr('high'), 10);
 
   loadLeaderboard = function () {
     window.gapi.client.load('games', 'v1', function () {

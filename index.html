@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="less/app.less.css" />
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
   </head>
-  <body>
+  <body data-volume-high="40">
     <div class="container">
       <h1>Ingrid Intimidator</h1>
       <div id="signin_button" class="hide pull-right" style="position: absolute; right: 0">
@@ -43,26 +43,31 @@
     </div>
     <div class="container" id="main_container">
       <div id="meter_container">
-          <p id="volume_timer_container">
+        <div class="row">
+          <div class="container" id="volume_timer_container">
             <span id="volume_timer_hold_label">Hold</span>
             <span id="volume_timer_held_label">
               <i class="fa fa-star-o"></i>
               Awesome! Held
             </span>
             for <span id="volume_timer">1 min</span>
-          </p>
-        <div class="ingrid pull-left hidden-xs hidden-sm"></div>
-        <div class="brask pull-left visible-xs hidden-sm"></div>
-        <div class="volume_data pull-left">
-          <canvas id="volume_indicator"></canvas>
-          <br/>
-          <div class="data hide">
-            <meter max="150" high="40" value="0" id="volume_meter"></meter>
           </div>
-          <p id="volume_meter_text"></p>
         </div>
-        <div class="brask pull-left hidden-xs hidden-sm"></div>
+        <div class="row">
+          <div class="col-sm-5 col-md-2 hidden-xs hidden-sm">
+            <div class="ingrid"></div>
+          </div>
+          <div class="col-sm-2 col-md-1 volume_data">
+            <canvas id="volume_indicator"></canvas>
+            <br/>
+            <p id="volume_meter_text"></p>
+          </div>
+          <div class="col-md-2">
+            <div class="brask"></div>
+          </div>
+        </div>
       </div>
+
       <div class="container">
         <br/>
 
@@ -87,9 +92,9 @@
 
         <div class="jumbotron">
           <h1>Reason</h1>
-          <p>
+          <div>
             Mostly as a thank you / birthday thing for <a href="https://twitter.com/BarbaraKozicki/">Barbara Kozicki</a>. Happy birthday! You are an awesome addition to the show!
-          </p>
+          </div>
           <h1>Credits</h1>
           <ul>
             <li><a href="http://www.gavinmogan.com">Gavin Mogan</a>(me). Coder/etc</li>

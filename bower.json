@@ -15,6 +15,7 @@
   "dependencies": {
     "bootstrap": "~3.1.1",
     "HumanizeDuration.js": "https://github.com/EvanHahn/HumanizeDuration.js.git",
-    "tinycolor": "~0.9.17"
+    "tinycolor": "~0.9.17",
+    "fontawesome": "~4.0.3"
   }
 }
