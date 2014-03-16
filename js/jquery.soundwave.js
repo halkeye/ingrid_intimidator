@@ -35,6 +35,7 @@
         angle: 10,
         angle_growth: 0.10,
         color: '#0000FF',
+        done_alpha_level: 0.15,
         percent_shown: 100,
       };
       var settings = $.extend({}, defaults, config);
@@ -47,15 +48,25 @@
       for (var i = 0; i < total_slices; i++)
       {
         times.push(i);
-        if (tinycolor) {
-          colors.push(tinycolor.darken(settings.color, total_slices * i).toRgbString());
+        var percent_complete = (times.length / total_slices) * 100;
+        var is_done = settings.percent_shown <= percent_complete;
+        if (tinycolor && settings.skip_tiny !== true) {
+          var c = tinycolor.darken(settings.color, total_slices * i);
+          if (is_done) {
+            c.setAlpha(settings.done_alpha_level);
+            colors.unshift(c.toRgbString());
+          } else {
+            colors.push(c.toRgbString());
+          }
         } else {
-          var blue = ( 255 / total_slices ) * (i+1);
-          var color = 'rgb(0,0,'+blue.toFixed(0)+')';
+          var blue = (255 / total_slices) * (i + 1);
+          var color = 'rgb(0,0,' + blue.toFixed(0) + ')';
+          if (is_done) {
+            color = 'rgba(0,0,' + blue.toFixed(0) + ', ' + settings.done_alpha_level + ')';
+          }
           colors.unshift(color);
         }
-        var percent_complete = (times.length / total_slices)*100;
-        if (settings.percent_shown <= percent_complete) { break; }
+        //if (is_done) { break; }
       }
       times.forEach(function (offset) {
         var x = (-radius + settings.line_width) + x_growth * offset;

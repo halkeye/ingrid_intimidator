@@ -10,14 +10,17 @@
         window.setTimeout(callback, 1000 / 60);
       };
   })();
+
   $('#splashmodal').modal('show').on('click', '*', function () {
     $('#splashmodal').modal('hide')
   });
 
   var audioContext, analyser, analyser2, javascriptNode, splitter, sourceNode,
     targetSuccessTime,  sustainTime, sustainValue, volume, baseVolume,
+    elm_volume_indicator,
     elm_volume_meter, elm_volume_meter_text, elm_meter_container, elm_timer,
     loadLeaderboard, submitScore;
+  elm_volume_indicator = $('#volume_indicator').sound_wave({ percent_shown: 0 });
 
   audioContext = new window.AudioContext();
   analyser = null;
@@ -195,6 +198,9 @@
   (function animloop() {
     var time = 0;
     window.requestAnimFrame(animloop);
+    var percent_done = (volume / sustainValue).toFixed(3) * 100;
+    elm_volume_indicator.sound_wave({ percent_shown: percent_done, skip_tiny: true });
+
     elm_volume_meter_text.text(volume.toFixed(2) + "dB of " + sustainValue.toFixed(2) + "dB");
     if (volume > sustainValue) {
       if (targetSuccessTime === 0) {

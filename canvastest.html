@@ -53,7 +53,8 @@
       $('canvas').each(function() {
         var $this = $(this);
         $this.sound_wave({
-          percent_shown: $this.data('percent')
+          percent_shown: $this.data('percent'),
+          skip_tiny: true
         });
       });
     })(jQuery);
