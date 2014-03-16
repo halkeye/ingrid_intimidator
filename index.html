@@ -2,9 +2,9 @@
 <html lang="en">
   <head>
     <title>Ingrid Intimidate</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
     <!-- https://developers.google.com/games/services/web/clientsetup -->
     <meta name="google-signin-clientid" content="164121266837.apps.googleusercontent.com" />
     <meta name="google-signin-cookiepolicy" content="single_host_origin" />
@@ -26,15 +26,17 @@
           <div class="modal-body">
             <div id="splashsection">
               <h1>Are you as awesome at intimidating as ingrid is?</h1>
-              <div class="ingrid pull-left"></div>
-              <div id="instructions">
-                <h3>Instructions</h3>
-                <ol>
-                  <li>Channel your inner ingrid.</li>
-                  <li>Click/Tap away these instructions.</li>
-                  <li>Yell as long as you can.</li>
-                  <li>Keep yelling for at least 1 seconds.</li>
-                </ol>
+              <div id="instructions" class="row">
+                <div class="col-xs-4 ingrid"></div>
+                <div class="col-xs-6">
+                  <h3>Instructions</h3>
+                  <ol>
+                    <li>Channel your inner ingrid.</li>
+                    <li>Click/Tap away these instructions.</li>
+                    <li>Yell as long as you can.</li>
+                    <li>Keep yelling for at least 1 seconds.</li>
+                  </ol>
+                </div>
               </div>
             </div>
           </div>
@@ -46,25 +48,18 @@
         <div class="row">
           <div class="container" id="volume_timer_container">
             <span id="volume_timer_hold_label">Hold</span>
-            <span id="volume_timer_held_label">
-              <i class="fa fa-star-o"></i>
-              Awesome! Held
-            </span>
-            for <span id="volume_timer">1 min</span>
+            <span id="volume_timer_held_label"><i class="fa fa-star-o">&nbsp;</i>Awesome! Held</span>
+            for
+            <span id="volume_timer">1 min</span>
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-5 col-md-2 hidden-xs hidden-sm">
-            <div class="ingrid"></div>
-          </div>
-          <div class="col-sm-2 col-md-1 volume_data">
-            <canvas id="volume_indicator"></canvas>
-            <br/>
+          <div class="col-sm-4 hidden-xs ingrid"></div>
+          <div class="col-xs-5 col-sm-2 volume_data">
+            <canvas id="volume_indicator"></canvas> <br/>
             <p id="volume_meter_text"></p>
           </div>
-          <div class="col-md-2">
-            <div class="brask"></div>
-          </div>
+          <div class="col-xs-5 col-sm-4 brask"></div>
         </div>
       </div>
 
@@ -108,9 +103,9 @@
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="bower_components/HumanizeDuration.js/humanize-duration.js" type="text/javascript"></script>
     <script src="bower_components/sprintf/src/sprintf.min.js" type="text/javascript"></script> -->
-    <script type="text/javascript" src="bower_components/tinycolor/dist/tinycolor-min.js" ></script>
-    <script type="text/javascript" src="js/jquery.soundwave.js" ></script>
-    <script src="./js/main.js" type="text/javascript"></script>
+    <script src="bower_components/tinycolor/dist/tinycolor-min.js" type="text/javascript"></script>
+    <script src="js/jquery.soundwave.js" type="text/javascript"></script>
+    <script src="js/main.js" type="text/javascript"></script>
     <!--    <script src="https://apis.google.com/js/client.js"></script>  -->
   </body>
 </html>
