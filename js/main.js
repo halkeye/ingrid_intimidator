@@ -11,13 +11,9 @@
       };
   })();
 
-  $('#splashmodal').modal('show').on('click', '*', function () {
-    $('#splashmodal').modal('hide')
-  });
-
   var audioContext, analyser, analyser2, javascriptNode, splitter, sourceNode,
     targetSuccessTime,  sustainTime, sustainValue, volume, baseVolume,
-    elm_volume_indicator,
+    highest_volume, elm_volume_indicator, game_started,
     elm_volume_meter, elm_volume_meter_text, elm_meter_container, elm_timer,
     loadLeaderboard, submitScore;
   elm_volume_indicator = $('#volume_indicator').sound_wave({ percent_shown: 0 });
@@ -31,6 +27,10 @@
 
   volume = 0;
   baseVolume = -1;
+  highest_volume = -1;
+  if (!localStorage.best_highest_volume) { localStorage.best_highest_volume = -1; }
+  if (!localStorage.best_highest_length) { localStorage.best_highest_length = -1; }
+  game_started = true;
 
   elm_meter_container = $('#meter_container');
   elm_volume_meter = $('#volume_meter');
@@ -173,6 +173,7 @@
         }
       } else {
         volume = Math.max(volume - baseVolume, 0);
+        highest_volume = Math.max(volume, highest_volume);
       }
       elm_volume_meter.attr('value', volume);
     };
@@ -192,10 +193,32 @@
     return average;
   }
 
+  function endGame(score) {
+    if (score < 0) { return; }
+    game_started = false
+    
+    localStorage.best_highest_volume = Math.max(localStorage.best_highest_volume, highest_volume);
+    localStorage.best_highest_length = Math.max(localStorage.best_highest_length, score);
+
+    $('#last_volume').text(window.sprintf("%05.2f", parseInt(highest_volume, 10)));
+    if (localStorage.best_highest_volume >= 0) {
+      $('#best_volume').text(window.sprintf("%05.2f", parseInt(localStorage.best_highest_volume,10)));
+    }
+    $('#last_length').text(humanizeDuration(score));
+    if (localStorage.best_highest_length >= 0) {
+      $('#best_length').text(humanizeDuration(localStorage.best_highest_length));
+    }
+    submitScore(score);
+    $('#end_game_modal').modal('show');
+  }
+
   getUserMedia({audio: true}, gotStream);
   (function animloop() {
-    var time = 0;
     window.requestAnimFrame(animloop);
+    if (game_started === false) {
+      return;
+    }
+    var time = 0;
     var percent_done = (volume / sustainValue).toFixed(3) * 100;
     elm_volume_indicator.sound_wave({ percent_shown: percent_done, skip_tiny: true });
 
@@ -215,11 +238,26 @@
       elm_timer.text(humanizeDuration(time));
     } else {
       if (targetSuccessTime !== 0) {
-        submitScore(new Date().getTime() - targetSuccessTime.getTime());
+        endGame(new Date().getTime() - targetSuccessTime.getTime());
         elm_meter_container.removeClass('high');
       }
       targetSuccessTime = 0;
       elm_timer.text(humanizeDuration(sustainTime * 1000));
     }
   })();
+  $('#retry_button').click(function (e) {
+    game_started = true;
+    highest_volume = -1;
+    $('#end_game_modal').modal('hide')
+  });
+  /* for debugging */
+  if (window.location.hash && window.location.hash.indexOf("end_game")) {
+    endGame(0);
+  } else {
+    $('#splashmodal').modal('show');
+  }
+  $(document).on('click', '*', function () {
+    $('#splashmodal').modal('hide')
+  });
+
 })(window.jQuery, window.humanizeDuration);

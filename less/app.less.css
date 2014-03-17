@@ -6141,27 +6141,12 @@ button.close {
   width: 100%;
   height: 100%;
 }
-#main_container {
-  padding: 40px 15px;
-}
 .ingrid {
   height: 300px;
   width: 161px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-image: url(../img/ingrid_facing_right.png);
-}
-#splashsection {
-  display: table-cell;
-  min-height: 375px;
-}
-#splashsection h1 {
-  font-size: 30px;
-  font-size: 3rem;
-}
-#splashsection #instructions h3 {
-  font-size: 20px;
-  font-size: 2rem;
 }
 .brask {
   margin-right: 10px;
@@ -6170,6 +6155,25 @@ button.close {
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-image: url(../img/brask_pants.png);
+}
+.brask_no_pants,
+#meter_container.high .brask {
+  background-image: url(../img/brask_no_pants.png);
+}
+.modal .container,
+.modal #leaderboard {
+  display: table-cell;
+  min-height: 375px;
+}
+.modal .container h1,
+.modal #leaderboard h1 {
+  font-size: 30px;
+  font-size: 3rem;
+}
+.modal .container #instructions h3,
+.modal #leaderboard #instructions h3 {
+  font-size: 20px;
+  font-size: 2rem;
 }
 @media (max-width: 767px) {
   #meter_container {
@@ -6182,9 +6186,6 @@ button.close {
 }
 #meter_container #volume_timer_held_label {
   display: none;
-}
-#meter_container.high .brask {
-  background-image: url(../img/brask_no_pants.png);
 }
 #meter_container.high #volume_timer_hold_label {
   display: none;

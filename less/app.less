@@ -19,9 +19,6 @@
   width: 100%;
   height: 100%;
 }
-#main_container {
-  padding: 40px 15px;
-}
   
 .ingrid {
   height: 300px;
@@ -31,7 +28,19 @@
   background-image: url(../img/ingrid_facing_right.png);
 }
 
-#splashsection {
+.brask {
+  margin-right: 10px;
+  height: 300px;
+  width: 200px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url(../img/brask_pants.png);
+}
+.brask_no_pants {
+  background-image: url(../img/brask_no_pants.png);
+}
+
+.modal .container {
   display: table-cell;
   min-height: 375px;
   h1 { .font-size(3) }
@@ -40,15 +49,6 @@
       .font-size(2);
     }
   }
-}
-
-.brask {
-  margin-right: 10px;
-  height: 300px;
-  width: 200px;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-image: url(../img/brask_pants.png);
 }
 
 #meter_container {
@@ -65,9 +65,7 @@
 
 }
 #meter_container.high {
-  .brask {
-    background-image: url(../img/brask_no_pants.png);
-  }
+  .brask:extend(.brask_no_pants) {}
   #volume_timer_hold_label {
     display: none;
   }

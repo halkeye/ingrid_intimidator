@@ -43,9 +43,45 @@
         </div>
       </div>
     </div>
+    <div class="modal fade" data-show="false" id="end_game_modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">You did it!</h4>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="col-xs-5 brask brask_no_pants"></div>
+              <div class="col-xs-7">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Yours</th>
+                      <th>Best</th>
+                    </tr>
+                  </thead>
+                  <tr>
+                    <th>Loudness</th>
+                    <td id="last_volume"></td> 
+                    <td id="best_volume">N/A</td>
+                  </tr>
+                  <tr>
+                    <th>Duration</th>
+                    <td id="last_length"></td> 
+                    <td id="best_length">N/A</td>
+                  </tr>
+                </table>
+                <button id="retry_button" type="button" class="btn btn-lg btn-primary">Retry</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container" id="main_container">
       <div id="meter_container">
-        <div class="row">
+        <div class="container">
           <div class="container" id="volume_timer_container">
             <span id="volume_timer_hold_label">Hold</span>
             <span id="volume_timer_held_label"><i class="fa fa-star-o">&nbsp;</i>Awesome! Held</span>
@@ -53,7 +89,7 @@
             <span id="volume_timer">1 min</span>
           </div>
         </div>
-        <div class="row">
+        <div class="container">
           <div class="col-sm-4 hidden-xs ingrid"></div>
           <div class="col-xs-5 col-sm-3 volume_data">
             <canvas id="volume_indicator"></canvas> <br/>
