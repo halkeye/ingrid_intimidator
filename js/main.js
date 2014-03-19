@@ -16,6 +16,11 @@
     highest_volume, elm_volume_indicator, game_started,
     elm_volume_meter, elm_volume_meter_text, elm_meter_container, elm_timer,
     loadLeaderboard, submitScore;
+  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+  if (!navigator.getUserMedia)
+  {
+    alert("Sadly your brower is not supported. Chrome (and to a lesser degree firefox) are the only browsers that support using the microphone");
+  }
   elm_volume_indicator = $('#volume_indicator').sound_wave({ percent_shown: 0 });
 
   audioContext = new window.AudioContext();
@@ -116,11 +121,6 @@
   }
   function getUserMedia(dictionary, callback) {
     try {
-      navigator.getUserMedia =
-        navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia;
-
       navigator.getUserMedia(dictionary, callback, get_user_media_error);
     } catch (e) {
       alert('getUserMedia threw exception :' + e);
