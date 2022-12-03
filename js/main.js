@@ -3,25 +3,24 @@
   // http://www.smartjava.org/content/exploring-html5-web-audio-visualizing-sound
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
   window.requestAnimFrame = (function () {
-    return  window.requestAnimationFrame ||
+    return window.requestAnimationFrame ||
       window.webkitRequestAnimationFrame ||
-      window.mozRequestAnimationFrame    ||
+      window.mozRequestAnimationFrame ||
       function (callback) {
         window.setTimeout(callback, 1000 / 60);
       };
   })();
 
   var audioContext, analyser, analyser2, javascriptNode, splitter, sourceNode,
-    targetSuccessTime,  sustainTime, sustainValue, volume, baseVolume,
+    targetSuccessTime, sustainTime, sustainValue, volume, baseVolume,
     highest_volume, elm_volume_indicator, game_started,
     elm_volume_meter, elm_volume_meter_text, elm_meter_container, elm_timer,
     loadLeaderboard, submitScore;
   navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-  if (!navigator.getUserMedia)
-  {
+  if (!navigator.getUserMedia) {
     alert("Sadly your brower is not supported. Chrome (and to a lesser degree firefox) are the only browsers that support using the microphone");
   }
-  elm_volume_indicator = $('#volume_indicator').sound_wave({ percent_shown: 0 });
+  elm_volume_indicator = $('#volume_indicator').sound_wave({percent_shown: 0});
 
   audioContext = new window.AudioContext();
   analyser = null;
@@ -33,8 +32,8 @@
   volume = 0;
   baseVolume = -1;
   highest_volume = -1;
-  if (!localStorage.best_highest_volume) { localStorage.best_highest_volume = -1; }
-  if (!localStorage.best_highest_length) { localStorage.best_highest_length = -1; }
+  if (!localStorage.best_highest_volume) {localStorage.best_highest_volume = -1;}
+  if (!localStorage.best_highest_length) {localStorage.best_highest_length = -1;}
   game_started = true;
 
   elm_meter_container = $('#meter_container');
@@ -69,8 +68,8 @@
     });
   };
   submitScore = function (score) {
-    if (!window.gapi) { return; }
-    if (score <= 0) { return; }
+    if (!window.gapi) {return;}
+    if (score <= 0) {return;}
     window.gapi.client.load('games', 'v1', function () {
       var score_list_config, request;
       score_list_config = {
@@ -163,7 +162,7 @@
     javascriptNode.onaudioprocess = function () {
       var array;
       // get the average for the first channel
-      array =  new Uint8Array(analyser.frequencyBinCount);
+      array = new Uint8Array(analyser.frequencyBinCount);
       analyser.getByteFrequencyData(array);
       volume = getAverageVolume(array);
       if (baseVolume === -1) {
@@ -194,15 +193,15 @@
   }
 
   function endGame(score) {
-    if (score < 0) { return; }
+    if (score < 0) {return;}
     game_started = false
-    
+
     localStorage.best_highest_volume = Math.max(localStorage.best_highest_volume, highest_volume);
     localStorage.best_highest_length = Math.max(localStorage.best_highest_length, score);
 
     $('#last_volume').text(window.sprintf("%05.2f", parseInt(highest_volume, 10)));
     if (localStorage.best_highest_volume >= 0) {
-      $('#best_volume').text(window.sprintf("%05.2f", parseInt(localStorage.best_highest_volume,10)));
+      $('#best_volume').text(window.sprintf("%05.2f", parseInt(localStorage.best_highest_volume, 10)));
     }
     $('#last_length').text(humanizeDuration(score));
     if (localStorage.best_highest_length >= 0) {
@@ -212,39 +211,41 @@
     $('#end_game_modal').modal('show');
   }
 
-  getUserMedia({audio: true}, gotStream);
-  (function animloop() {
-    window.requestAnimFrame(animloop);
-    if (game_started === false) {
-      return;
-    }
-    var time = 0;
-    var percent_done = (volume / sustainValue).toFixed(3) * 100;
-    elm_volume_indicator.sound_wave({ percent_shown: percent_done, skip_tiny: true });
+  document.getElementById("start_button").addEventListener("click", function () {
+    getUserMedia({audio: true}, gotStream);
+  })
+    (function animloop() {
+      window.requestAnimFrame(animloop);
+      if (game_started === false) {
+        return;
+      }
+      var time = 0;
+      var percent_done = (volume / sustainValue).toFixed(3) * 100;
+      elm_volume_indicator.sound_wave({percent_shown: percent_done, skip_tiny: true});
 
-    elm_volume_meter_text.text(window.sprintf("%05.2fdB of %05.2fdB", volume, sustainValue));
-    if (volume > sustainValue) {
-      if (targetSuccessTime === 0) {
-        targetSuccessTime = new Date();
-        targetSuccessTime.setSeconds(targetSuccessTime.getSeconds() + sustainTime);
-      }
-      /* If we've sustained it for seconds */
-      if (new Date() >= targetSuccessTime) {
-        elm_meter_container.addClass('high');
-        time = new Date().getTime() - targetSuccessTime.getTime();
+      elm_volume_meter_text.text(window.sprintf("%05.2fdB of %05.2fdB", volume, sustainValue));
+      if (volume > sustainValue) {
+        if (targetSuccessTime === 0) {
+          targetSuccessTime = new Date();
+          targetSuccessTime.setSeconds(targetSuccessTime.getSeconds() + sustainTime);
+        }
+        /* If we've sustained it for seconds */
+        if (new Date() >= targetSuccessTime) {
+          elm_meter_container.addClass('high');
+          time = new Date().getTime() - targetSuccessTime.getTime();
+        } else {
+          time = ((targetSuccessTime.getTime() - new Date().getTime()));
+        }
+        elm_timer.text(humanizeDuration(time));
       } else {
-        time = ((targetSuccessTime.getTime() - new Date().getTime()));
+        if (targetSuccessTime !== 0) {
+          endGame(new Date().getTime() - targetSuccessTime.getTime());
+          elm_meter_container.removeClass('high');
+        }
+        targetSuccessTime = 0;
+        elm_timer.text(humanizeDuration(sustainTime * 1000));
       }
-      elm_timer.text(humanizeDuration(time));
-    } else {
-      if (targetSuccessTime !== 0) {
-        endGame(new Date().getTime() - targetSuccessTime.getTime());
-        elm_meter_container.removeClass('high');
-      }
-      targetSuccessTime = 0;
-      elm_timer.text(humanizeDuration(sustainTime * 1000));
-    }
-  })();
+    })();
   $('#retry_button').click(function (e) {
     game_started = true;
     highest_volume = -1;
