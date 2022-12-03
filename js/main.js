@@ -211,41 +211,42 @@
     $('#end_game_modal').modal('show');
   }
 
-  $('#start_button').click(function (e) {
+  $('#start_button').click(function () {
     getUserMedia({audio: true}, gotStream);
-  })
-    (function animloop() {
-      window.requestAnimFrame(animloop);
-      if (game_started === false) {
-        return;
-      }
-      var time = 0;
-      var percent_done = (volume / sustainValue).toFixed(3) * 100;
-      elm_volume_indicator.sound_wave({percent_shown: percent_done, skip_tiny: true});
+  });
+  function animloop() {
+    window.requestAnimFrame(animloop);
+    if (game_started === false) {
+      return;
+    }
+    var time = 0;
+    var percent_done = (volume / sustainValue).toFixed(3) * 100;
+    elm_volume_indicator.sound_wave({percent_shown: percent_done, skip_tiny: true});
 
-      elm_volume_meter_text.text(window.sprintf("%05.2fdB of %05.2fdB", volume, sustainValue));
-      if (volume > sustainValue) {
-        if (targetSuccessTime === 0) {
-          targetSuccessTime = new Date();
-          targetSuccessTime.setSeconds(targetSuccessTime.getSeconds() + sustainTime);
-        }
-        /* If we've sustained it for seconds */
-        if (new Date() >= targetSuccessTime) {
-          elm_meter_container.addClass('high');
-          time = new Date().getTime() - targetSuccessTime.getTime();
-        } else {
-          time = ((targetSuccessTime.getTime() - new Date().getTime()));
-        }
-        elm_timer.text(humanizeDuration(time));
-      } else {
-        if (targetSuccessTime !== 0) {
-          endGame(new Date().getTime() - targetSuccessTime.getTime());
-          elm_meter_container.removeClass('high');
-        }
-        targetSuccessTime = 0;
-        elm_timer.text(humanizeDuration(sustainTime * 1000));
+    elm_volume_meter_text.text(window.sprintf("%05.2fdB of %05.2fdB", volume, sustainValue));
+    if (volume > sustainValue) {
+      if (targetSuccessTime === 0) {
+        targetSuccessTime = new Date();
+        targetSuccessTime.setSeconds(targetSuccessTime.getSeconds() + sustainTime);
       }
-    })();
+      /* If we've sustained it for seconds */
+      if (new Date() >= targetSuccessTime) {
+        elm_meter_container.addClass('high');
+        time = new Date().getTime() - targetSuccessTime.getTime();
+      } else {
+        time = ((targetSuccessTime.getTime() - new Date().getTime()));
+      }
+      elm_timer.text(humanizeDuration(time));
+    } else {
+      if (targetSuccessTime !== 0) {
+        endGame(new Date().getTime() - targetSuccessTime.getTime());
+        elm_meter_container.removeClass('high');
+      }
+      targetSuccessTime = 0;
+      elm_timer.text(humanizeDuration(sustainTime * 1000));
+    }
+  };
+  animloop()
   $('#retry_button').click(function (e) {
     game_started = true;
     highest_volume = -1;
