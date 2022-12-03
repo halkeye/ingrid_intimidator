@@ -57,7 +57,6 @@
         tbody.empty();
         if (response.numScores !== "0") {
           $.each(response.items, function (idx, val) {
-            console.log(val);
             var tr = $('<tr>').appendTo(tbody);
             $('<td>').text(val.formattedScoreRank).appendTo(tr);
             $('<td>').text(val.player.displayName).appendTo(tr);
@@ -100,6 +99,7 @@
     }
   };
 
+  /*  I don't think used anymore 
   Array.prototype.remove = function () {
     var what, a = arguments, L = a.length, ax;
     while (L && this.length) {
@@ -110,6 +110,7 @@
     }
     return this;
   };
+  */
 
   function get_user_media_error(err) {
     if (console && console.error) {
@@ -212,6 +213,7 @@
   }
 
   $('#start_button').click(function () {
+    $('#splashmodal').modal('hide')
     getUserMedia({audio: true}, gotStream);
   });
   function animloop() {
@@ -258,8 +260,4 @@
   } else {
     $('#splashmodal').modal('show');
   }
-  $(document).on('click', '*', function () {
-    $('#splashmodal').modal('hide')
-  });
-
 })(window.jQuery, window.humanizeDuration);
