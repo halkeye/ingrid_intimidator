@@ -211,7 +211,7 @@
     $('#end_game_modal').modal('show');
   }
 
-  document.getElementById("start_button").addEventListener("click", function () {
+  $('#start_button').click(function (e) {
     getUserMedia({audio: true}, gotStream);
   })
     (function animloop() {
