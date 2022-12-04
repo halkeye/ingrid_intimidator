@@ -11,7 +11,7 @@
       };
   })();
 
-  var audioContext, analyser, analyser2, javascriptNode, splitter, sourceNode,
+  var _audioContext, analyser, analyser2, javascriptNode, splitter, sourceNode,
     targetSuccessTime, sustainTime, sustainValue, volume, baseVolume,
     highest_volume, elm_volume_indicator, game_started,
     elm_volume_meter, elm_volume_meter_text, elm_meter_container, elm_timer,
@@ -22,7 +22,13 @@
   }
   elm_volume_indicator = $('#volume_indicator').sound_wave({percent_shown: 0});
 
-  audioContext = new window.AudioContext();
+  function getAudioContext() {
+    if (!_audioContext) {
+      _audioContext = new window.AudioContext();
+    }
+    return _audioContext;
+  }
+
   analyser = null;
   javascriptNode = null;
   targetSuccessTime = 0;
@@ -129,23 +135,23 @@
 
   function gotStream(stream) {
     // Create an AudioNode from the stream.
-    var mediaStreamSource = audioContext.createMediaStreamSource(stream);
+    var mediaStreamSource = getAudioContext().createMediaStreamSource(stream);
 
-    javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
-    javascriptNode.connect(audioContext.destination);
+    javascriptNode = getAudioContext().createScriptProcessor(2048, 1, 1);
+    javascriptNode.connect(getAudioContext().destination);
 
     // setup a analyzer
-    analyser = audioContext.createAnalyser();
+    analyser = getAudioContext().createAnalyser();
     analyser.smoothingTimeConstant = 0.3;
     analyser.fftSize = 1024;
 
-    analyser2 = audioContext.createAnalyser();
+    analyser2 = getAudioContext().createAnalyser();
     analyser2.smoothingTimeConstant = 0.0;
     analyser2.fftSize = 1024;
 
     // create a buffer source node
-    //sourceNode = audioContext.createBufferSource();
-    splitter = audioContext.createChannelSplitter();
+    //sourceNode = getAudioContext().createBufferSource();
+    splitter = getAudioContext().createChannelSplitter();
 
     // connect the source to the analyser and the splitter
     mediaStreamSource.connect(splitter);
